@@ -15,28 +15,40 @@ public class Solver {
 		return this;
 	}
 
-	public void solve(int solutionType) throws BoardNotInitializedException {
+	public boolean solve(int solutionType) throws BoardNotInitializedException {
 		if (sudokuBoard == null)
 			throw new BoardNotInitializedException("The Sudoku Board Is Not Initialized Properly.");
 
 		if (solutionType == SolverConstants.SINGLE_SOLUTION) {
+
 			long startTime = System.currentTimeMillis();
-			if (!doSolveOneSolution(sudokuBoard))
+			if (!doSolveOneSolution(sudokuBoard)) {
 				System.out.println("No Solution Found");
-			System.out.println("Time Elapsed To Find Solution: " + (System.currentTimeMillis() - startTime) + "ms");
+				return false;
+			} else {
+				System.out.println("Time Elapsed To Find Solution: " + (System.currentTimeMillis() - startTime) + "ms");
+				return true;
+			}
+
 		} else if (solutionType == SolverConstants.ALL_SOLUTIONS) {
+
 			long startTime = System.currentTimeMillis();
-			if (!doSolveAllPossibleSolutions(sudokuBoard))
+			if (!doSolveAllPossibleSolutions(sudokuBoard)) {
 				System.out.println("No Solution Found");
-			System.out.println(
-					"Time Elapsed To Find All Possible Solutions: " + (System.currentTimeMillis() - startTime) + "ms");
+				return false;
+			} else {
+				System.out.println("Time Elapsed To Find All Possible Solutions: "
+						+ (System.currentTimeMillis() - startTime) + "ms");
+				return true;
+			}
 		}
+		return false;
 	}
 
 	private boolean doSolveOneSolution(SudokuBoard sudokuBoard) {
 		int i = 0;
 		int j = 0;
-		
+
 		if (sudokuBoard.isFull()) {
 			sudokuBoard.printBoard();
 			return true;
