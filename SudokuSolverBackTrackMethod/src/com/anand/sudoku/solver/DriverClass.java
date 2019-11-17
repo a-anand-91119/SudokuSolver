@@ -49,7 +49,7 @@ public class DriverClass {
 
 		if (sudokuData != null && sudokuData.length() > 0) {
 			Solver solver = new Solver().initialize(sudokuData, rows, innerRow, innerColumn);
-			solver.solve(SolverConstants.SINGLE_SOLUTION);
+			solver.solve(SolverConstants.ALL_SOLUTIONS);
 		} else {
 			System.out.println("Invalid Data");
 		}
