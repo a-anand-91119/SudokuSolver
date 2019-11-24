@@ -1,5 +1,11 @@
 package com.anand.sudoku.solver.util;
 
+/**
+ * Class to hold all the constants used in the Sudoku Solver program
+ * 
+ * @author A Anand
+ *
+ */
 public class SolverConstants {
 
 	public static final int SINGLE_SOLUTION = 1;
@@ -17,6 +23,7 @@ public class SolverConstants {
 	public static final String DASH = "-";
 	public static final String SPACE = " ";
 	public static final String MULTIPLE_SPACE_REGX = "\\s+";
+	public static final String SINGLE_SPACE_REGX = "\\s";
 	
 	public static final int FILE_READER = 1;
 	public static final int STD_READER = 2;

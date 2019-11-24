@@ -11,6 +11,16 @@ import com.anand.sudoku.solver.exception.InvalidSolutionTypeException;
 import com.anand.sudoku.solver.exception.InvalidSudokuPuzzleException;
 import com.anand.sudoku.solver.util.SolverConstants;
 
+/**
+ * Driver Class in the main class accepting the sudoku board dimensions and
+ * sudoku data. The class is capable of reading input from both file and STDIN.
+ * 
+ * Once the data is read and validated, a sudoku {@link Solver} is initialized
+ * and begins to solve the puzzle.
+ * 
+ * @author A Anand
+ *
+ */
 public class DriverClass {
 
 	private int puzzleSize;
@@ -19,6 +29,12 @@ public class DriverClass {
 	private String sudokuData;
 	private int solutionType;
 
+	/**
+	 * The main method which reads input, initialized a {@link Solver} and solves
+	 * the puzzle
+	 * 
+	 * @param args the command line arguments.
+	 */
 	public static void main(String[] args) {
 
 		try {
@@ -51,6 +67,37 @@ public class DriverClass {
 		}
 	}
 
+	/**
+	 * Method reads a sudoku puzzle from the sudokuPuzzleInput.txt file, validates
+	 * the input read an creates a concatenated string to sudoku rows.
+	 * 
+	 * The format of sudokuPuzzleInput.txt is <br>
+	 * <ul>
+	 * <li>Size of the sudoku board (no of rows and no of columns)</li>
+	 * <li>Row size of the inner box</li>
+	 * <li>Column size of the inner box</li>
+	 * <li>BoardStyle: Style in which board data will be provided. Each entry of the
+	 * sudoku board needs to be separated by a single space<br>
+	 * Possible Values:<br>
+	 * 1. Each Row of the puzzle is entered in different line <br>
+	 * 2. Entire puzzle input is provided in single line.</li>
+	 * <li>Sudoku board data in one line or n lines where n is the number of rows in
+	 * the sudoku board</li>
+	 * <li>SolutionType: Type of the solution Required. <br>
+	 * Possible Values:<br>
+	 * 1. Single solution: Find a single solution for the puzzle and stop the
+	 * program <br>
+	 * 2. All Solutions: Find all possible solutions to the puzzle.</li>
+	 * </ul>
+	 * 
+	 * @param in The buffered reader
+	 * @throws IOException                  if error occurs while reading input data
+	 * @throws InvalidBoardStyleException   if the board style specified is not
+	 *                                      valid
+	 * @throws InvalidSudokuPuzzleException if the sudoku board data entered is
+	 *                                      invalid
+	 * @throws InvalidSolutionTypeException if the solution type required in invalid
+	 */
 	private void readFromFile(BufferedReader in)
 			throws IOException, InvalidBoardStyleException, InvalidSudokuPuzzleException, InvalidSolutionTypeException {
 		in = new BufferedReader(new FileReader("sudokuPuzzleInput.txt"));
@@ -78,6 +125,39 @@ public class DriverClass {
 		validateSolutionType();
 	}
 
+	/**
+	 * Method reads a sudoku puzzle from the STDIN, validates the input read an
+	 * creates a concatenated string to sudoku rows.
+	 * 
+	 * The various data needed for the application are
+	 * <ul>
+	 * <li>Size of the sudoku board (no of rows and no of columns)</li>
+	 * <li>Row size of the inner box</li>
+	 * <li>Column size of the inner box</li>
+	 * <li>BoardStyle: Style in which board data will be provided. Each entry of the
+	 * sudoku board needs to be separated by a single space<br>
+	 * Possible Values:<br>
+	 * 1. Each Row of the puzzle is entered in different line <br>
+	 * 2. Entire puzzle input is provided in single line.</li>
+	 * <li>Sudoku board data in one line or n lines where n is the number of rows in
+	 * the sudoku board</li>
+	 * <li>SolutionType: Type of the solution Required. <br>
+	 * Possible Values:<br>
+	 * 1. Single solution: Find a single solution for the puzzle and stop the
+	 * program <br>
+	 * 2. All Solutions: Find all possible solutions to the puzzle.</li>
+	 * </ul>
+	 * 
+	 * @param in The buffered reader
+	 * @throws IOException                  if error occurs while reading input data
+	 * @throws NumberFormatException        if any size entered is not a valid
+	 *                                      number
+	 * @throws InvalidBoardStyleException   if the board style specified is not
+	 *                                      valid
+	 * @throws InvalidSudokuPuzzleException if the sudoku board data entered is
+	 *                                      invalid
+	 * @throws InvalidSolutionTypeException if the solution type required in invalid
+	 */
 	private void readFromStandardInput(BufferedReader in) throws NumberFormatException, IOException,
 			InvalidSudokuPuzzleException, InvalidSolutionTypeException, InvalidBoardStyleException {
 
@@ -123,6 +203,13 @@ public class DriverClass {
 		System.out.println();
 	}
 
+	/**
+	 * This method reads the sudoku board data line by line. The method will be
+	 * invoked only if the BoardStyle is {@link SolverConstants#ONE_ROW_PER_LINE}
+	 * 
+	 * @param in The buffered reader from which data needs to be read
+	 * @throws IOException if error occurs while reading input data
+	 */
 	private void readOneRowPerLine(BufferedReader in) throws IOException {
 		sudokuData = in.readLine();
 		int readCount = 1;
@@ -133,16 +220,41 @@ public class DriverClass {
 		}
 	}
 
+	/**
+	 * This method validates the entered BoardStyle.The possible values are <br>
+	 * 1. {@link SolverConstants#ONE_ROW_PER_LINE}<br>
+	 * 2. {@link SolverConstants#ENTIRE_BOARD_ONE_LINE}
+	 * 
+	 * @param boardStyle the board style received from input which needs to be
+	 *                   validated
+	 * @throws InvalidBoardStyleException if board style is less than 0 or greater
+	 *                                    than the total number of board styles
+	 */
 	private void validateBoardStyle(int boardStyle) throws InvalidBoardStyleException {
 		if (boardStyle > SolverConstants.NO_OF_BOARD_INPUT_STYLES || boardStyle <= 0)
 			throw new InvalidBoardStyleException("Invalid Board Input Style Provided. Please recheck the input");
 	}
 
+	/**
+	 * This method validates the entered SolutionType. The possible values are <br>
+	 * 1. {@link SolverConstants#SINGLE_SOLUTION}<br>
+	 * 2. {@link SolverConstants#ALL_SOLUTIONS}
+	 * 
+	 * @throws InvalidSolutionTypeException if solution type entered is less than 0 or greater
+	 *                                    than the total number of solution types
+	 */
 	private void validateSolutionType() throws InvalidSolutionTypeException {
 		if (solutionType > SolverConstants.NO_OF_SOLUTION_TYPES || solutionType <= 0)
 			throw new InvalidSolutionTypeException("Invalid Solution Type Provided. Please recheck the input");
 	}
 
+	/**
+	 * This method validates the sudoku board data read from the input.
+	 * 
+	 * @throws InvalidSudokuPuzzleException if the entered data is not a valid
+	 *                                      sudoku data as per the dimensions
+	 *                                      provided
+	 */
 	private void validatePuzzleInput() throws InvalidSudokuPuzzleException {
 
 		if (sudokuData.length() <= 0)
@@ -156,6 +268,9 @@ public class DriverClass {
 
 	}
 
+	/**
+	 * Method Displays Intro Text for the application
+	 */
 	private void displayIntro() {
 		System.out.println("********************************************");
 		System.out.println("***************SUDOKU SOLVER****************");
